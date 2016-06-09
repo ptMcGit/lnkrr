@@ -8,30 +8,50 @@ Minitest::Reporters.use! Minitest::Reporters::ProgressReporter.new
 require 'rack/test'
 require './app'
 
-class TodoAppTests < Minitest::Test
+class LnkrrAppTests < Minitest::Test
   include Rack::Test::Methods
 
   def app
-    TodoApp
+    LnkrrApp
   end
 
   def setup
     User.delete_all
     List.delete_all
-    Item.delete_all
   end
 
-  def test_can_create_lists
-    u = User.create! username: "floop", password: "password"
+  def make_user
+    User.create! username: "skydaddy", first_name: "Luke", last_name: "Skywalker", password: "lightsaber"
+  end
 
-    header "Authorization", "floop"
-    resp = post "/lists", title: "new list"
+  def make_link
+    Link.create! title: "Test Link", url: "http://www.test.com", description: "This is a test"
+  end
+
+  def test_can_create_links
+    u = make_user
+
+    header "Authorization", "skydaddy"
+    resp = post "/skydaddy/newlinks", title: "new link"
 
     assert_equal 200, resp.status
-    assert_equal 1, List.count
+    assert_equal 1, Link.count
 
-    list = List.last
-    assert_equal "new list", list.title
-    assert_equal u, list.user
+    link = Link.last
+    assert_equal "new link", link.title
+    assert_equal u, link.user
   end
+
+  def test_can_delete_links
+    u = make_user
+    l = make_link
+
+    assert_equal 0, Link.count
+    make_link
+    header "Authorization", "skydaddy"
+    resp = delete "/#{u.username}/links/#{l.id}"
+
+    assert_equal 200, resp.status
+  end
+binding.pry
 end
