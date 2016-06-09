@@ -1,4 +1,4 @@
-class Item < ActiveRecord::Base
+class Link < ActiveRecord::Base
   # validates_presence_of :list_id, :name
   # validates_uniqueness_of :name, scope: :list_id
   # validate :due_date_is_in_the_future
