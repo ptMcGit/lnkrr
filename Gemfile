@@ -7,6 +7,10 @@ gem 'rake'
 gem 'sinatra', require: false
 gem 'sinatra-contrib'
 gem 'rack-cors', require: 'rack/cors'
+gem 'slack-ruby-bot'
+gem 'celluloid-io'
+gem 'puma'
+gem 'dotenv'
 
 group :development do
   gem 'sqlite3'
