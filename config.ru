@@ -1,18 +1,18 @@
-require "./app"
-require "rack/cors"
+# require "./app"
+# require "rack/cors"
 
-use Rack::Cors do
-  allow do
-    origins "*"
-    resource "*", headers: :any, methods: :any
-  end
-end
+# use Rack::Cors do
+#   allow do
+#     origins "*"
+#     resource "*", headers: :any, methods: :any
+#   end
+# end
 
-run LnkrrApp
+# run LnkrrApp
 # ...........
 
 
-##$LOAD_PATH.unshift(File.dirname(__FILE__))
+$LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require 'dotenv'
 Dotenv.load
@@ -20,17 +20,17 @@ Dotenv.load
 require 'slack-mathbot'
 require 'web'
 
-#Thread.abort_on_exception = true
+Thread.abort_on_exception = true
 
-# Thread.new do
-#   begin
-#     SlackLnkrrBot::Bot.run
+Thread.new do
+  begin
+    SlackLnkrrBot::Bot.run
 
-#   rescue Exception => e
-#     STDERR.puts "ERROR: #{e}"
-#     STDERR.puts e.backtrace
-#     raise e
-#   end
-# end
+  rescue Exception => e
+    STDERR.puts "ERROR: #{e}"
+    STDERR.puts e.backtrace
+    raise e
+  end
+end
 
-# run SlackLnkrrBot::Web
+run SlackLnkrrBot::Web
