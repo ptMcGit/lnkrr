@@ -23,7 +23,8 @@ class LnkrrApp < Sinatra::Base
   end
 
   get "/:user/links" do
-  #  binding.pry
+    "hello world"
+    #  binding.pry
   #  get_links
   end
   #   lists = user.lists
