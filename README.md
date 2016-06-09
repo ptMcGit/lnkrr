@@ -6,7 +6,7 @@ Submit and share links...
 
 ## Where is it
 
-deployment at "http://yourapphere.heroku.com"
+deployment at "https://lnkrr.herokuapp.com"
 
 ## Components
 
@@ -29,23 +29,23 @@ Backend : Look in json
 
 Structure all JSON responses inside an array []
 
-user
-    {
-    "avatar": "value",
-    "first_name": "value",
-    "last_name": "value",
-    "username": "value",
-    "location": "value",
-    "joined_date": "YYYY-MM-DD",
-    "saved_links": "a number",
-    }
-links
-    {
-    "title": "value",
-    "url": "value",
-    "description": "value",
-    "timestamp": "YYYY-MM-DD HH:MM:SS"
-    }
+    user
+        {
+        "avatar": "value",
+        "first_name": "value",
+        "last_name": "value",
+        "username": "value",
+        "location": "value",
+        "joined_date": "YYYY-MM-DD",
+        "saved_links": "a number",
+        }
+    links
+        {
+        "title": "value",
+        "url": "value",
+        "description": "value",
+        "timestamp": "YYYY-MM-DD HH:MM:SS"
+        }
 
 1. SUBMIT NEW LINK
 
