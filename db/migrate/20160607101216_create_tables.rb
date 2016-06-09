@@ -2,19 +2,19 @@ class CreateTables < ActiveRecord::Migration
   def change
     create_table :users do |t|
       t.string :username
-      t.string :password
+      t.string :first_name
+      t.string :last_name
+      t.string :location
+      t.date :joined_date
     end
+    #saved_links make from User.link.count
 
-    create_table :items do |t|
-      t.string :name, null: false
-      t.integer :list_id, null: false
-      t.date :due_date
-      t.datetime :done_at
-    end
-
-    create_table :lists do |t|
+    create_table :links do |t|
       t.string :title
-      t.integer :user_id
+      t.string :url
+      t.text :description
+      t.datetime :timestamp
     end
+      # t.datetime :done_at
   end
 end
