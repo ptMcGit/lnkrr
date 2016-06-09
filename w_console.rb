@@ -1,5 +1,7 @@
 require 'pry'
 require 'httparty'
+require "./db/setup"
+require "./lib/all"
 
 def get_request path, auth="webconsole"
   HTTParty.get Url + path, headers: { "Authorization" => auth }
