@@ -5,7 +5,7 @@ require "sinatra/json"
 require "./db/setup"
 require "./lib/all"
 
-class LinkrApp < Sinatra::Base
+class LnkrrApp < Sinatra::Base
   set :logging, true
   set :show_exceptions, false
 
@@ -23,11 +23,19 @@ class LinkrApp < Sinatra::Base
   end
 
   get "/:user/links" do
-    binding.pry
+  #  binding.pry
+  #  get_links
+  end
   #   lists = user.lists
   #   json lists: user.lists.pluck(:title)
     # end
+
+
+  def get_links
+    #json user.links
   end
+
+
 
   # get "/lists/:name" do
   #   list = user.lists.where(title: params[:name]).first
@@ -77,5 +85,5 @@ class LinkrApp < Sinatra::Base
 end
 
 if $PROGRAM_NAME == __FILE__
-  LinkrApp.run!
+  LnkrrApp.run!
 end

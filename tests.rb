@@ -15,17 +15,28 @@ class LnkrrAppTests < Minitest::Test
     LnkrrApp
   end
 
-  def setup
-    User.delete_all
-    List.delete_all
-  end
+  #def setup
+  #  User.delete_all
+  #  List.delete_all
+  #end
 
-  def make_user
-    User.create! username: "skydaddy", first_name: "Luke", last_name: "Skywalker", password: "lightsaber"
-  end
+  #def make_user
+  #  User.create! username: "skydaddy", first_name: "Luke", last_name: "Skywalker", password: "lightsaber"
+  #end
 
-  def make_link
-    Link.create! title: "Test Link", url: "http://www.test.com", description: "This is a test"
+  #def make_link
+  #  Link.create! title: "Test Link", url: "http://www.test.com", description: "This is a test"
+  #end
+
+focus
+  def test_can_view_links
+    #u = make_user
+
+    header "Authorization", "skydaddy"
+    r = get "/skydaddy/links"
+    binding.pry
+    assert_equal 200, r.status
+
   end
 
   def test_can_create_links
@@ -53,5 +64,4 @@ class LnkrrAppTests < Minitest::Test
 
     assert_equal 200, resp.status
   end
-binding.pry
 end
