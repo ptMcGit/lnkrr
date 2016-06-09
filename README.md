@@ -36,15 +36,15 @@ user
     "last_name": "value",
     "username": "value",
     "location": "value",
-    "joined_date": "value",
-    "saved_links": "value",
+    "joined_date": "YYYY-MM-DD",
+    "saved_links": "a number",
     }
 links
     {
     "title": "value",
     "url": "value",
     "description": "value",
-    "timestamp": "value"
+    "timestamp": "YYYY-MM-DD HH:MM:SS"
     }
 
 1. SUBMIT NEW LINK
@@ -66,7 +66,7 @@ links
 
 2. VIEW LINKS FOR A USER
 
-   path - "/user/links"
+   path - "/:user/links"
 
     json body of all links of user
 
