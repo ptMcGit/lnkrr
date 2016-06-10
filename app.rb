@@ -63,11 +63,10 @@ class LnkrrApp < Sinatra::Base
   # create links
 
   post "/:user/newlinks" do
-    if username_is_path?
-      post_new_link params[:user]
-    else
-      recommend_link
-    end
+    username = params[:user]
+    data = User.find_by(username: username)
+    post_new_link params[:user]
+    status 200
   end
 
   def post_new_link user
@@ -105,14 +104,6 @@ class LnkrrApp < Sinatra::Base
 
   def username
     request.env["HTTP_AUTHORIZATION"]
-  end
-
-  def username_is_path?
-    username == path[0]
-  end
-
-  def path
-    request.env["PATH_INFO"].split("/").drop 1
   end
 
   def message(user,link)
