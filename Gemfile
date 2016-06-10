@@ -18,6 +18,7 @@ group :development do
   gem 'minitest-focus'
   gem 'minitest-reporters'
   gem 'rack-test'
+  gem 'httparty'
 end
 
 group :production do
