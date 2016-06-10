@@ -107,6 +107,12 @@ RESPONSE: status code
 
 *use submit new link method*
 
+#### 5.  GET RECOMMENDED LINKS
+
+GET REQUEST
+
+PATH "/:user/recommended"
+
 ## Back End
 
 ### Data Models
