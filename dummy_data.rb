@@ -83,3 +83,11 @@ def wikipedia
     timestamp: "2016-02-05 12:50:22"
   }
 end
+
+def skydaddy_apple_granddaddy
+  {
+    owner: User.find_by(username: "skydaddy").id.to_s,
+    url: Link.find_by(title: "Apple Computers").id.to_s,
+    receiver: User.find_by(username: "skygranddaddy").id.to_s
+  }
+end
