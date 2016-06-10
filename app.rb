@@ -19,8 +19,9 @@ class LnkrrApp < Sinatra::Base
 #################
 
   get "/:user/links" do
-    param_user = params[:user]
-    Slink.where(owner: param_user).to_json
+    u = User.find_by(username: params["user"])
+    u.links
+    binding.pry
   end
 
   post "/:user/links" do
