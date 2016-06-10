@@ -61,6 +61,13 @@ class LnkrrApp < Sinatra::Base
   #   params[:text].reverse
   # end
 
+  # view profiles
+
+  get "/:user" do
+    sought_user = path[0]
+    json User.find_by(username: sought_user)
+  end
+
   # create links
 
   post "/:user/newlinks" do

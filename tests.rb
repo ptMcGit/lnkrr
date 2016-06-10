@@ -37,8 +37,8 @@ class LnkrrAppTests < Minitest::Test
     Link.create! **(link)
   end
 
-  def parse json_string
-    JSON.parse json_string
+  def parse_body response
+    JSON.parse response.body
   end
 
   def test_can_create_links
@@ -47,7 +47,7 @@ class LnkrrAppTests < Minitest::Test
     assert_equal 200, r.status
     binding.pry
   end
-focus
+
   def test_can_view_links
     create_link wikipedia
     create_link apple
@@ -55,12 +55,22 @@ focus
 
     auth "skydaddy"
     r = get "/skydaddy/links"
-    body = parse r
+    body = parse_body r
     assert_equal 200, r.status
     assert a.count > 0
   end
+focus
+  def test_can_view_user
+    create_user storm_trooper1
+    create_user storm_trooper2
 
-
+    auth "skydaddy"
+    r = get "/rad_Steve"
+    binding.pry
+    body = parse_body r
+    assert_equal storm_trooper1[:username], body["username"]
+    assert_equal 200, r.status
+  end
   # def test_can_create_links
   #   u = make_user
 
