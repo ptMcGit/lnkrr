@@ -53,11 +53,9 @@ class LnkrrApp < Sinatra::Base
   #   status 200
   # end
 
-  # delete "/items/:id" do
-  #   item = user.items.find params[:id]
-  #   item.mark_complete
-  #   status 200
-  # end
+  delete "/:user/links/:id" do
+    "success"
+  end
 
   # get "/message/:text" do
   #   params[:text].reverse
