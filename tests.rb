@@ -57,6 +57,7 @@ class LnkrrAppTests < Minitest::Test
     assert_equal 1, Link.count
   end
 
+focus
   def test_can_view_links
     create_link wikipedia
     create_link apple
@@ -64,7 +65,9 @@ class LnkrrAppTests < Minitest::Test
 
     auth "skydaddy"
     r = get "/skydaddy/links"
+
     body = parse_body r
+
     assert last_response.ok?
     assert body.count > 0
   end
@@ -95,17 +98,19 @@ class LnkrrAppTests < Minitest::Test
   #   assert_equal "new link", link.title
   #   assert_equal u, link.user
   # end
-
+focus
   def test_can_delete_links
     assert_equal 0, Link.count
     u = User.create! skydaddy
-    l = Link.create! github
+    Link.create! github
+    link_id = Link.where(title: "GitHub").pluck(:id)
 
-    post_link apple.to_json
-    header "Authorization", "skydaddy"
-    resp = delete "/skydaddy/links/#{l.id}"
-
-    assert last_response.ok?
     assert_equal 1, Link.count
+
+    header "Authorization", "skydaddy"
+    
+    resp = delete "/skydaddy/links/#{link_id.first}"
+    assert_equal 0, Link.count
+    assert last_response.ok?
   end
 end
