@@ -23,6 +23,11 @@ Generic status codes to send
 - Frontend: Sent in JSON encoded request body
 - Backend: Look in json
 
+x = request.body.read #get the body
+h = JSON.parse x #turn into a hash
+rack testing
+post /:user/newlinks {hash}.to_json
+
 ### Authorization Header
 
     { "Authorization": "username" }
@@ -103,3 +108,13 @@ RESPONSE: status code
 *use submit new link method*
 
 ## Back End
+
+### Data Models
+
+### User Table
+
+### Link Table
+
+### Recommended Links Table ?
+|User1 | Link_ID | User2|
+Owner  |  Link URL | User recommended |
