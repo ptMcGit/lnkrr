@@ -20,36 +20,11 @@ class LnkrrApp < Sinatra::Base
   get "/:user/links" do
     get_links
   end
-  #   lists = user.lists
-  #   json lists: user.lists.pluck(:title)
-    # end
-  get "/:user"
-    username = params[:user]
-    User.where(username: username).all.to_json
-  end
 
   def get_links
     Link.all.to_json
     #json user.links
   end
-
-  # get "/lists/:name" do
-  #   list = user.lists.where(title: params[:name]).first
-  #   json items: list.items
-  # end
-
-  # post "/lists/:name" do
-  #   list = user.lists.where(title: params[:name]).first
-  #   list.add_item parsed_body["name"], due_date: parsed_body["due_date"]
-
-  #   status 200
-  # end
-
-  # delete "/items/:id" do
-  #   item = user.items.find params[:id]
-  #   item.mark_complete
-  #   status 200
-  # end
 
   delete "/:user/links/:link_id" do
     username = params[:user]
@@ -58,12 +33,6 @@ class LnkrrApp < Sinatra::Base
     Link.find(del_link).delete
     status 200
   end
-
-  # get "/message/:text" do
-  #   params[:text].reverse
-  # end
-
-  # view profiles
 
   get "/:user" do
     sought_user = path[0]
@@ -135,6 +104,7 @@ class LnkrrApp < Sinatra::Base
       :headers => { 'Content-Type' => 'application/json' } )
   end
   #format is message("user","link")
+end
 
 if $PROGRAM_NAME == __FILE__
   LnkrrApp.run!
