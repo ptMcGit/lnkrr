@@ -27,11 +27,13 @@ class LnkrrApp < Sinatra::Base
   end
 
   get "/:user/links" do
-    get_links
+
   end
   #   lists = user.lists
   #   json lists: user.lists.pluck(:title)
     # end
+
+
 
 
   def get_links
@@ -70,12 +72,12 @@ class LnkrrApp < Sinatra::Base
 
   # create links
 
-  post "/:user/newlinks" do
-    if username_is_path?
-      post_new_link
-    else
-      recommend_link
-    end
+  post "/:user/links" do
+    "success"
+  end
+
+  post "/:user/recommended" do
+    "success"
   end
 
   def post_new_link
