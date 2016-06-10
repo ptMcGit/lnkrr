@@ -3,6 +3,7 @@ require 'httparty'
 require 'json'
 require "./db/setup"
 require "./lib/all"
+require "./dummy_data"
 
 def get_request path, auth: "webconsole", body: {}
   HTTParty.get Url + path, headers: { "Authorization" => auth }, body: body.to_json
