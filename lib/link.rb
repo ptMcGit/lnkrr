@@ -3,6 +3,9 @@ class Link < ActiveRecord::Base
   # validates_uniqueness_of :name, scope: :list_id
   # validate :due_date_is_in_the_future
 
+  has_many :slinks
+  has_many :links, through: :users
+
   def mark_time
     # WARNING: not `done_at = Time.now`
     self.timestamp = Time.now
