@@ -27,7 +27,7 @@ class LnkrrApp < Sinatra::Base
   end
 
   get "/:user/links" do
-    binding.pry
+    get_links
   end
   #   lists = user.lists
   #   json lists: user.lists.pluck(:title)
@@ -35,7 +35,7 @@ class LnkrrApp < Sinatra::Base
 
 
   def get_links
-    binding.pry
+    Link.all.to_json
     #json user.links
   end
 

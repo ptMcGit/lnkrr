@@ -19,7 +19,6 @@ class LnkrrAppTests < Minitest::Test
   def setup
     User.delete_all
     Link.delete_all
-      #  List.delete_all
   end
 
   def auth user="test"
@@ -38,36 +37,29 @@ class LnkrrAppTests < Minitest::Test
     Link.create! **(link)
   end
 
-  def make_user
-    User.create! username: "skydaddy", first_name: "Luke", last_name: "Skywalker", password: "lightsaber"
+  def parse json_string
+    JSON.parse json_string
   end
 
-  #def make_link
-  #  Link.create! title: "Test Link", url: "http://www.test.com", description: "This is a test"
-  #end
-focus
   def test_can_create_links
     auth "skydaddy"
     r = post "/skydaddy/newlinks", apple.to_json
     assert_equal 200, r.status
     binding.pry
   end
-
+focus
   def test_can_view_links
-     binding.pry
     create_link wikipedia
     create_link apple
     create_link github
 
-    u = make_user
-    binding.pry
-    header "Authorization", "skydaddy"
+    auth "skydaddy"
     r = get "/skydaddy/links"
-
-
+    body = parse r
     assert_equal 200, r.status
-
+    assert a.count > 0
   end
+
 
   # def test_can_create_links
   #   u = make_user
