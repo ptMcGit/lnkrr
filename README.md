@@ -98,8 +98,8 @@ PATH - "/:user/links/:link_id"
 
 RESPONSE: status code
 
-4. RECOMMEND LINKS TO ANOTHER USER
+#### 4. RECOMMEND LINKS TO ANOTHER USER
 
-=> use submit new link method
+*use submit new link method*
 
 ## Back End
