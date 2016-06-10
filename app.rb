@@ -23,7 +23,13 @@ class LnkrrApp < Sinatra::Base
   end
 
   post "/:user/links" do
-    Link.create!(parsed_body)
+    l = Link.create!(parsed_body).id
+    u = User.find_by(username: username)
+
+    #if username == params["user"]
+    #  binding.pry
+    #  r =
+
     Slink.create!(user_id: username, link_id: parsed_body)
   end
 
