@@ -13,13 +13,9 @@ def post_request path, auth: "webconsole", body: {}
   HTTParty.post Url + path, headers: { "Authorization" => auth }, body: body.to_json
 end
 
-def create_user_test
-  User.create!(username:"skydaddy",password:"lightsaber")
-end
-
 Heroku  = "https://lnkrr.herokuapp.com"
 Local   = "http://localhost:4567"
 Url     = Local
-# get_request PATH [AUTHORIZATION_NAME]
-# post_request PATH [AUTHORIZATION_NAME]
+# get_request PATH [AUTHORIZATION]
+# post_request PATH [AUTHORIZATION]
 binding.pry
