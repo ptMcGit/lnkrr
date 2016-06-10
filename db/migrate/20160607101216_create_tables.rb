@@ -5,6 +5,7 @@ class CreateTables < ActiveRecord::Migration
       t.string :password
       t.string :first_name
       t.string :last_name
+      t.string :avatar
       t.string :location
       t.date :joined_date
     end
