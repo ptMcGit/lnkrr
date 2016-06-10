@@ -28,6 +28,9 @@ class LnkrrApp < Sinatra::Base
       Slink.create!(owner: username, url: parsed_body)
   end
 
+  get "/:user/recommended" do
+    Slink.where(receiver: params[:user]).pluck(:owner, :url)
+  end
 
 
   def get_links
@@ -67,23 +70,12 @@ class LnkrrApp < Sinatra::Base
     username = params[:user]
     data = User.find_by(username: username)
     post_new_link params[:user]
-    status 200
   end
 
   def post_new_link user
     Link.create! parsed_body
     message(user,Link.last.url)
   end
-
-  # def user
-  #   username = request.env["HTTP_AUTHORIZATION"]
-  #   if username
-  #     #  what if this is a new user? We don't have a password
-  #     User.where(username: username).first_or_create!
-  #   else
-  #     halt 401
-  #   end
-  # end
 
   def parsed_body
      begin
@@ -116,8 +108,9 @@ class LnkrrApp < Sinatra::Base
                }.to_json,
       :headers => { 'Content-Type' => 'application/json' } )
   end
-  #format is message("user","link")
 end
+end
+  #format is message("user","link")
 
 if $PROGRAM_NAME == __FILE__
   LnkrrApp.run!
