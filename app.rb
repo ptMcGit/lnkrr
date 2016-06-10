@@ -24,11 +24,12 @@ class LnkrrApp < Sinatra::Base
 
   post "/:user/links" do
     Link.create!(parsed_body)
-    Slink.create!(owner: username, url: parsed_body)
+    Slink.create!(user_id: username, link_id: parsed_body)
   end
 
   get "/:user/recommended" do
-    Slink.where(receiver: params[:user]).pluck(:owner, :url).to_json
+    # logic problem
+    # Slink.where(receiver: params[:user]).pluck(:owner, :url).to_json
   end
 
   post "/:user/recommended" do
