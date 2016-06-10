@@ -41,19 +41,19 @@ class LnkrrApp < Sinatra::Base
   end
 
   delete "/:user/links/:link_id" do
-    username = params[:user]
-    data = User.find_by(username: username)
-    del_link = params[:link_id].to_i
-    if data == nil
-      # username doesn't exist
-      status 404
+    param_user = params[:user]
+    if username == param_user
+      data = User.find_by(username: param_user)
+      del_link = params[:link_id].to_i
+        if data == nil
+            # username doesn't exist
+            status 404
+          else
+            Link.find(del_link).delete
+        end
     else
-      data.to_json
-      status 200
+      status 404
     end
-    # User.where(username: username).pluck(:owned_links) How do we check ownership of link_id
-    Link.find(del_link).delete
-    status 200
   end
 
   get "/:user" do
