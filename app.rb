@@ -32,7 +32,10 @@ class LnkrrApp < Sinatra::Base
   #   lists = user.lists
   #   json lists: user.lists.pluck(:title)
     # end
-
+  get "/:user"
+    username = params[:user]
+    # User.where(username: username).pluck(:owned_links) don't have owned links yet?
+  end
 
   def get_links
     Link.all.to_json
@@ -56,6 +59,14 @@ class LnkrrApp < Sinatra::Base
   #   item.mark_complete
   #   status 200
   # end
+
+  delete "/:user/links/:link_id"
+    username = params[:user]
+    del_link = params[:link_id].to_i
+    # User.where(username: username).pluck(:owned_links) How do we check ownership of link_id
+    Link.find(del_link).delete
+    status 200
+  end
 
   # get "/message/:text" do
   #   params[:text].reverse
