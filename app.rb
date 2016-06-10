@@ -22,10 +22,12 @@ class LnkrrApp < Sinatra::Base
     binding.pry
   end
 
+  before do
+    require_authorization!
+  end
+
   get "/:user/links" do
-    "hello world"
-    #  binding.pry
-  #  get_links
+    binding.pry
   end
   #   lists = user.lists
   #   json lists: user.lists.pluck(:title)
@@ -33,10 +35,9 @@ class LnkrrApp < Sinatra::Base
 
 
   def get_links
+    binding.pry
     #json user.links
   end
-
-
 
   # get "/lists/:name" do
   #   list = user.lists.where(title: params[:name]).first
@@ -60,9 +61,18 @@ class LnkrrApp < Sinatra::Base
   #   params[:text].reverse
   # end
 
-  post "/:user/newlinks" do
+  # create links
 
-    #user.make_list params[:title]
+  post "/:user/newlinks" do
+    if username_is_path?
+      post_new_link
+    else
+      recommend_link
+    end
+  end
+
+  def post_new_link
+    Link.create! parsed_body
   end
 
   # def user
@@ -75,14 +85,36 @@ class LnkrrApp < Sinatra::Base
   #   end
   # end
 
-  # def parsed_body
-  #   begin
-  #     @parsed_body ||= JSON.parse request.body.read
-  #   rescue
-  #     # FIXME
-  #     halt 400
-  #   end
-  # end
+  def parsed_body
+     begin
+       @parsed_body ||= JSON.parse request.body.read
+     rescue
+       # FIXME
+       halt 400
+     end
+  end
+
+  def require_authorization!
+    unless username
+      halt(
+        401,
+        json("status": "error", "error": "You must log in.")
+      )
+    end
+  end
+
+  def username
+    request.env["HTTP_AUTHORIZATION"]
+  end
+
+  def username_is_path?
+    username == path[0]
+  end
+
+  def path
+    request.env["PATH_INFO"].split("/").drop 1
+  end
+
 end
 
 if $PROGRAM_NAME == __FILE__
