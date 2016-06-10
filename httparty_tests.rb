@@ -22,8 +22,16 @@ class LnkrrAppTests < Minitest::Test
   def post_request path, auth: "webconsole", body: {}
     HTTParty.post Url + path, headers: { "Authorization" => auth }, body: body.to_json
   end
-focus
+  focus
   def test_can_view_user
+    r = get_request "/skydaddy"
+    body = JSON.parse r
     binding.pry
+    assert_equal "skydaddy", body[0]["username"]
+    assert_equal 1, body.count
+    assert_equal 200, r.status
   end
+
+
+
 end
