@@ -34,7 +34,7 @@ class LnkrrApp < Sinatra::Base
     # end
   get "/:user"
     username = params[:user]
-    # User.where(username: username).pluck(:owned_links) don't have owned links yet?
+    User.where(username: username).all.to_json
   end
 
   def get_links
@@ -83,14 +83,15 @@ class LnkrrApp < Sinatra::Base
 
   post "/:user/newlinks" do
     if username_is_path?
-      post_new_link
+      post_new_link params[:user]
     else
       recommend_link
     end
   end
 
-  def post_new_link
+  def post_new_link user
     Link.create! parsed_body
+    message(user,Link.last.url)
   end
 
   # def user
