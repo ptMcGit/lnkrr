@@ -50,13 +50,11 @@ class LnkrrApp < Sinatra::Base
 
   get "/:user" do
     username = params[:user]
-    data = User.find_by(username: username)
+    data = User.where(username: username)
     if data == nil
       # username doesn't exist
-      status 404
     else
       data.to_json
-      status 200
     end
   end
 
