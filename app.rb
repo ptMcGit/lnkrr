@@ -10,15 +10,6 @@ class LnkrrApp < Sinatra::Base
   set :show_exceptions, false
 
   error do |e|
-  #   if e.is_a? ActiveRecord::RecordNotFound
-  #     halt 404
-  #   elsif e.is_a? ActiveRecord::RecordInvalid
-  #     # FIXME: why is this 500'ing _after_ sending the JSON response?
-  #     json error: e.message
-  #   else
-  #     # raise e
-  #     puts e.message
-    #   end
     binding.pry
   end
 
@@ -60,7 +51,7 @@ class LnkrrApp < Sinatra::Base
   #   status 200
   # end
 
-  delete "/:user/links/:link_id"
+  delete "/:user/links/:link_id" do
     username = params[:user]
     del_link = params[:link_id].to_i
     # User.where(username: username).pluck(:owned_links) How do we check ownership of link_id
@@ -97,7 +88,7 @@ class LnkrrApp < Sinatra::Base
   # def user
   #   username = request.env["HTTP_AUTHORIZATION"]
   #   if username
-  #     # FIXME: what if this is a new user? We don't have a password
+  #     #  what if this is a new user? We don't have a password
   #     User.where(username: username).first_or_create!
   #   else
   #     halt 401
@@ -144,8 +135,6 @@ class LnkrrApp < Sinatra::Base
       :headers => { 'Content-Type' => 'application/json' } )
   end
   #format is message("user","link")
-
-end
 
 if $PROGRAM_NAME == __FILE__
   LnkrrApp.run!
