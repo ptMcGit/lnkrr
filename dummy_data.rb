@@ -1,6 +1,6 @@
 # users
 
-def luke
+def skydaddy
   {
       username: "skydaddy",
       password: "lightsaber",
@@ -11,10 +11,10 @@ def luke
   }
 end
 
-def luke
+def skygranddaddy
   {
-      username: "skydaddy",
-      password: "deathchoke",
+      username: "skygranddaddy",
+      password: "forcechoke",
       first_name: "Darth",
       last_name: "Vader",
       location: "the Death Star",
