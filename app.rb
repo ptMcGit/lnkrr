@@ -27,7 +27,7 @@ class LnkrrApp < Sinatra::Base
   end
 
   get "/:user/links" do
-
+    get_links
   end
   #   lists = user.lists
   #   json lists: user.lists.pluck(:title)
