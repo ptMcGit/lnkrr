@@ -15,6 +15,11 @@ class CreateTables < ActiveRecord::Migration
       t.text :description
       t.datetime :timestamp
     end
+    create_table :slinks do |t|
+      t.string :owner
+      t.string :url
+      t.string :receiver
+    end
       # t.datetime :done_at
   end
 end

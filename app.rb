@@ -19,13 +19,16 @@ class LnkrrApp < Sinatra::Base
 
   get "/:user/links" do
     username = params[:user]
-
+    Slink.where(owner: username).to_json
   end
 
   post "/:user/links" do
-    username = params[:user]
-    get_links
+    if username == params[:user]
+      Link.create!(parsed_body)
+      Slink.create!(owner: username, url: parsed_body)
   end
+
+
 
   def get_links
     Link.all.to_json
