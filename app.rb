@@ -17,21 +17,24 @@ class LnkrrApp < Sinatra::Base
     require_authorization!
   end
 
+#################
+
   get "/:user/links" do
     param_user = params[:user]
     Slink.where(owner: param_user).to_json
   end
 
   post "/:user/links" do
-    l = Link.create!(parsed_body).id
-    u = User.find_by(username: username)
-    binding.pry
-    #if username == params["user"]
-    #  binding.pry
-    #  r =
+    link = Link.create!(parsed_body)
+    r_id = User.find_by(username: params["user"])
 
-    Slink.create!(user_id: username, link_id: parsed_body)
+    if user_id == r_id
+      Slink.create!(user_id: user_id, link_id: link.id)
+    else
+      Slink.create!(user_id: user_id, link_id: link.id, receiver_id: r_id)
+    end
   end
+
 
   get "/:user/recommended" do
     # logic problem
@@ -41,6 +44,8 @@ class LnkrrApp < Sinatra::Base
   post "/:user/recommended" do
     Slink.create!(parsed_body)
   end
+
+############
 
   def get_links
     Link.all.to_json
@@ -106,6 +111,11 @@ class LnkrrApp < Sinatra::Base
   def username
     request.env["HTTP_AUTHORIZATION"]
   end
+
+  def user_id
+    User.find_by(username: username).id
+  end
+
 
   def message(user,link)
     token = ENV["SLACK_PAYLOAD"]
