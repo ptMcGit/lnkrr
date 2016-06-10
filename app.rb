@@ -23,7 +23,6 @@ class LnkrrApp < Sinatra::Base
   end
 
   post "/:user/links" do
-    if username == params[:user]
       Link.create!(parsed_body)
       Slink.create!(owner: username, url: parsed_body)
   end
@@ -81,7 +80,6 @@ class LnkrrApp < Sinatra::Base
      begin
        @parsed_body ||= JSON.parse request.body.read
      rescue
-       # FIXME
        halt 400
      end
   end
@@ -108,7 +106,6 @@ class LnkrrApp < Sinatra::Base
                }.to_json,
       :headers => { 'Content-Type' => 'application/json' } )
   end
-end
 end
   #format is message("user","link")
 
