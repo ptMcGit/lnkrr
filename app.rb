@@ -133,6 +133,16 @@ class LnkrrApp < Sinatra::Base
     request.env["PATH_INFO"].split("/").drop 1
   end
 
+  def message user link
+    token = ENV["SLACK_PAYLOAD"]
+    HTTParty.post("#{token}",
+      :body => { :username => 'lnkrrbot',
+                 :channel => '@tythompson',
+                 :text => '#{user} recommended the link: #{link}',
+               }.to_json,
+      :headers => { 'Content-Type' => 'application/json' } )
+  end
+
 end
 
 if $PROGRAM_NAME == __FILE__
