@@ -10,7 +10,6 @@ class LnkrrApp < Sinatra::Base
   set :show_exceptions, false
 
   error do |e|
-    binding.pry
   end
 
   before do

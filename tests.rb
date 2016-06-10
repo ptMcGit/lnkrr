@@ -19,22 +19,31 @@ class LnkrrAppTests < Minitest::Test
   def setup
     User.delete_all
     Link.delete_all
+    Slink.delete_all
   end
 
   def auth user="test"
     header "Authorization", user
   end
 
+
+
   def post_link link
     post_request "/testuser/newlinks", body: link
   end
 
+#skydaddy, skygranddaddy, storm_trooper1
   def create_user user
     User.create! **(user)
   end
 
+#github, apple, wikipedia
   def create_link link
     Link.create! **(link)
+  end
+
+  def create_slink slink
+    Slink.create! **(slink)
   end
 
   def parse_body response
@@ -44,8 +53,8 @@ class LnkrrAppTests < Minitest::Test
   def test_can_create_links
     auth "skydaddy"
     r = post "/skydaddy/newlinks", apple.to_json
-    assert_equal 200, r.status
-    binding.pry
+    assert last_response.ok?
+    assert_equal 1, Link.count
   end
 
   def test_can_view_links
@@ -56,21 +65,23 @@ class LnkrrAppTests < Minitest::Test
     auth "skydaddy"
     r = get "/skydaddy/links"
     body = parse_body r
-    assert_equal 200, r.status
-    assert a.count > 0
+    assert last_response.ok?
+    assert body.count > 0
   end
-focus
+
   def test_can_view_user
     create_user storm_trooper1
     create_user storm_trooper2
 
     auth "skydaddy"
     r = get "/rad_Steve"
-    binding.pry
+
     body = parse_body r
-    assert_equal storm_trooper1[:username], body["username"]
-    assert_equal 200, r.status
+
+    assert_equal storm_trooper1[:username], body[0]["username"]
+    assert last_response.ok?
   end
+
   # def test_can_create_links
   #   u = make_user
 
@@ -86,14 +97,15 @@ focus
   # end
 
   def test_can_delete_links
-    u = make_user
-    l = make_link
-
     assert_equal 0, Link.count
-    make_link
-    header "Authorization", "skydaddy"
-    resp = delete "/#{u.username}/links/#{l.id}"
+    u = User.create! skydaddy
+    l = Link.create! github
 
-    assert_equal 200, resp.status
+    post_link apple.to_json
+    header "Authorization", "skydaddy"
+    resp = delete "/skydaddy/links/#{l.id}"
+
+    assert last_response.ok?
+    assert_equal 1, Link.count
   end
 end
