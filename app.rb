@@ -10,7 +10,6 @@ class LnkrrApp < Sinatra::Base
   set :show_exceptions, false
 
   error do |e|
-    binding.pry
   end
 
   before do
@@ -62,6 +61,7 @@ class LnkrrApp < Sinatra::Base
             status 404
           else
             Link.find(del_link).delete
+            # add slink line?
         end
     else
       status 404
