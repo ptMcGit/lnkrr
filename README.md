@@ -58,7 +58,7 @@ Structure all JSON responses inside an array `[]`
 
 #### 1. SUBMIT NEW LINK
 
-PATH - `/:user`
+PATH - `/:user/links`
 
 POST request
 
