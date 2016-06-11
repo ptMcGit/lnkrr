@@ -10,6 +10,12 @@ class LnkrrApp < Sinatra::Base
   set :show_exceptions, false
 
   error do |e|
+    if e.is_a? ActiveRecord::RecordNotFound
+      halt 404, json(error: "Not Found")
+    elsif e.is_a? ActiveRecord::RecordInvalid
+      halt 422, json(error: e.message)
+    else
+      puts e.message
   end
 
   before do
@@ -95,7 +101,7 @@ class LnkrrApp < Sinatra::Base
   def parsed_body
      begin
        @parsed_body ||= JSON.parse request.body.read
-     rescue
+     rescue JSON::ParserError
        halt 400
      end
   end
@@ -110,7 +116,9 @@ class LnkrrApp < Sinatra::Base
   end
 
   def username
-    request.env["HTTP_AUTHORIZATION"]
+    username = request.env["HTTP_AUTHORIZATION"]
+    halt 401 unless username
+    User.find_by(username: username) || halt(403)
   end
 
   def user_id
