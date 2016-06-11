@@ -127,7 +127,7 @@ class LnkrrApp < Sinatra::Base
     token = ENV["SLACK_PAYLOAD"]
     HTTParty.post("#{token}",
       :body => { :username => 'lnkrrbot',
-                 :channel => '@tythompson',
+                 :channel => '#plock_recommendations',
                  :text => "#{user} recommended the link: #{link}",
                }.to_json,
       :headers => { 'Content-Type' => 'application/json' } )
