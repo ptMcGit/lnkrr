@@ -16,6 +16,7 @@ class LnkrrApp < Sinatra::Base
       halt 422, json(error: e.message)
     else
       puts e.message
+    end
   end
 
   before do
@@ -27,22 +28,23 @@ class LnkrrApp < Sinatra::Base
   get "/:user/links" do
     u = User.find_by(username: params["user"])
     u.links
-    binding.pry
   end
 
   post "/:user/links" do
     link = Link.create!(parsed_body)
-    r_id = User.find_by(username: params["user"])
-
-    if user_id == r_id
-      Slink.create!(user_id: user_id, link_id: link.id)
-    else
-      Slink.create!(user_id: user_id, link_id: link.id, receiver_id: r_id)
+    sender = User.find_by(username: params["user"])
+    if sender
+      if sender.id == user_id
+        Slink.create!(user_id: user_id, link_id: link.id)
+      else
+        # you are trying to post to someone else's links
+      end
     end
   end
 
 
   get "/:user/recommended" do
+    binding.pry
     # logic problem
     # Slink.where(receiver: params[:user]).pluck(:owner, :url).to_json
   end
@@ -118,7 +120,8 @@ class LnkrrApp < Sinatra::Base
   def username
     username = request.env["HTTP_AUTHORIZATION"]
     halt 401 unless username
-    User.find_by(username: username) || halt(403)
+    (u = User.find_by( username: username )) || halt(403)
+    u.username
   end
 
   def user_id
