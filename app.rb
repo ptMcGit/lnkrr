@@ -2,6 +2,7 @@
 require "pry"
 require "sinatra/base"
 require "sinatra/json"
+require "rack/cors"
 
 require "./db/setup"
 require "./lib/all"
@@ -9,6 +10,13 @@ require "./lib/all"
 class LnkrrApp < Sinatra::Base
   set :logging, true
   set :show_exceptions, false
+
+  use Rack::Cors do
+    allow do
+      origins "*"
+      resource "*", headers: :any, methods: :any
+    end
+  end
 
   error do |e|
     if e.is_a? ActiveRecord::RecordNotFound
@@ -73,13 +81,16 @@ class LnkrrApp < Sinatra::Base
   end
 
   get "/:user" do
-    data = User.where(username: params_user)
-    if data == nil
-      # username doesn't exist
-    else
-      data.to_json
-    end
+#    data = User.where(username: params_user)
+#    if data == nil
+#      # username doesn't exist
+#    else
+#      data.to_json
+#    end
+    #  end
+    json User.find_by(username: params_user)
   end
+
 
   def parsed_body
      begin
