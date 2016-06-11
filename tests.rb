@@ -42,77 +42,89 @@ class LnkrrAppTests < Minitest::Test
     Link.create! **(link)
   end
 
-  def create_slink slink
-    Slink.create! **(slink)
+  def create_slink submitter, link, receiver
+    Slink.create!(user_id: submitter.id, link_id: link.id, receiver_id: receiver.id)
   end
 
   def parse_body response
     JSON.parse response.body
   end
-focus
-  def test_can_create_links
+
+  def test_can_POST_links_to_self
+    User.create! skydaddy
     auth "skydaddy"
     r = post "/skydaddy/links", apple.to_json
-    binding.pry
     assert last_response.ok?
     assert_equal 1, Link.count
-
   end
 
+  def test_can_GET_links
+    s = User.create! skydaddy
+    l = Link.create! wikipedia
+    r = User.create! skygranddaddy
 
-  def test_can_view_links
-    create_link wikipedia
-    create_link apple
-    create_link github
+    create_slink s, l, r
 
     auth "skydaddy"
     r = get "/skydaddy/links"
-
     body = parse_body r
-
     assert last_response.ok?
-    assert body.count > 0
+    assert_equal "Wikipedia", body[0]["title"]
   end
 
   def test_can_view_user
-    create_user storm_trooper1
-    create_user storm_trooper2
+    u = User.create! skydaddy
+    s1 = User.create! storm_trooper1
+    s2 = User.create! storm_trooper2
 
     auth "skydaddy"
     r = get "/rad_Steve"
-
     body = parse_body r
 
-    assert_equal storm_trooper1[:username], body[0]["username"]
+    assert_equal s1.username, body[0]["username"]
     assert last_response.ok?
   end
-
-  # def test_can_create_links
-  #   u = make_user
-
-  #   header "Authorization", "skydaddy"
-  #   resp = post "/skydaddy/newlinks", title: "new link"
-
-  #   assert_equal 200, resp.status
-  #   assert_equal 1, Link.count
-
-  #   link = Link.last
-  #   assert_equal "new link", link.title
-  #   assert_equal u, link.user
-  # end
 
   def test_can_delete_links
     assert_equal 0, Link.count
     u = User.create! skydaddy
-    Link.create! github
-    link_id = Link.where(title: "GitHub").pluck(:id)
+    l = Link.create! github
 
     assert_equal 1, Link.count
 
     header "Authorization", "skydaddy"
 
-    resp = delete "/skydaddy/links/#{link_id.first}"
+    r = delete "/skydaddy/links/#{l.id}"
     assert_equal 0, Link.count
     assert last_response.ok?
+  end
+
+  def test_can_recommend_links_to_other
+    s = User.create! skydaddy
+    r = User.create! skygranddaddy
+
+    auth "skydaddy"
+    resp = post "/skygranddaddy/recommended", wikipedia.to_json
+    l = Link.find_by(title: "Wikipedia")
+    sl = Slink.first
+
+    assert last_response.ok?
+    assert_equal [sl.user_id, sl.link_id, sl.receiver_id], [s.id, l.id, r.id]
+    assert_equal 1, Slink.count
+  end
+
+  def test_can_view_recommended_links
+    s = User.create! storm_trooper2
+    l = Link.create! github
+    r = User.create! storm_trooper3
+    create_slink s, l, r
+
+    auth "swellPhil"
+    resp = get "/MojoMike/recommended"
+    body = parse_body resp
+
+    assert last_response.ok?
+    assert_equal "GitHub", body[0]["title"]
+    assert_equal 1, body.count
   end
 end
