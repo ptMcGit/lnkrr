@@ -42,7 +42,6 @@ class LnkrrApp < Sinatra::Base
     end
   end
 
-
   get "/:user/recommended" do
     binding.pry
     # logic problem
@@ -50,7 +49,13 @@ class LnkrrApp < Sinatra::Base
   end
 
   post "/:user/recommended" do
-    Slink.create!(parsed_body)
+    link = Link.create!(parsed_body)
+    receiver = User.find_by(username: params["user"])
+    Slink.create!(
+      user_id: user_id,
+      link_id: link.id,
+      receiver_id: receiver.id
+    )
   end
 
 ############
