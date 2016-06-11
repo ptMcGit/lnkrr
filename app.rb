@@ -25,7 +25,7 @@ class LnkrrApp < Sinatra::Base
 
   get "/:user/links" do
     u = User.find_by(username: params["user"])
-    u.links
+    u.links.to_json
   end
 
   post "/:user/links" do
@@ -42,7 +42,9 @@ class LnkrrApp < Sinatra::Base
 
   get "/:user/recommended" do
     u = User.find_by(username: params["user"])
-    u.rlinks
+    binding.pry
+    u.rlinks.to_json
+
   end
 
   post "/:user/recommended" do
