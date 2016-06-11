@@ -1,3 +1,5 @@
+ENV["TEST"] = "true"
+
 require 'pry'
 require 'minitest/autorun'
 require 'minitest/focus'
@@ -26,8 +28,6 @@ class LnkrrAppTests < Minitest::Test
     header "Authorization", user
   end
 
-
-
   def post_link link
     post_request "/testuser/newlinks", body: link
   end
@@ -49,15 +49,17 @@ class LnkrrAppTests < Minitest::Test
   def parse_body response
     JSON.parse response.body
   end
-
+focus
   def test_can_create_links
     auth "skydaddy"
-    r = post "/skydaddy/newlinks", apple.to_json
+    r = post "/skydaddy/links", apple.to_json
+    binding.pry
     assert last_response.ok?
     assert_equal 1, Link.count
+
   end
 
-focus
+
   def test_can_view_links
     create_link wikipedia
     create_link apple
@@ -98,7 +100,7 @@ focus
   #   assert_equal "new link", link.title
   #   assert_equal u, link.user
   # end
-focus
+
   def test_can_delete_links
     assert_equal 0, Link.count
     u = User.create! skydaddy
@@ -108,7 +110,7 @@ focus
     assert_equal 1, Link.count
 
     header "Authorization", "skydaddy"
-    
+
     resp = delete "/skydaddy/links/#{link_id.first}"
     assert_equal 0, Link.count
     assert last_response.ok?
