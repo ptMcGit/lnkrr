@@ -24,13 +24,13 @@ class LnkrrApp < Sinatra::Base
   end
 
   get "/:user/links" do
-    u = User.find_by(username: params["user"])
+    u = User.find_by(username: params_user)
     u.links.to_json
   end
 
   post "/:user/links" do
     link = Link.create!(parsed_body)
-    sender = User.find_by(username: params["user"])
+    sender = User.find_by(username: params_user)
     if sender
       if sender.id == user_id
         Slink.create!(user_id: user_id, link_id: link.id)
@@ -41,13 +41,13 @@ class LnkrrApp < Sinatra::Base
   end
 
   get "/:user/recommended" do
-    u = User.find_by(username: params["user"])
+    u = User.find_by(username: params_user)
     u.rlinks.to_json
   end
 
   post "/:user/recommended" do
     link = Link.create!(parsed_body)
-    receiver = User.find_by(username: params["user"])
+    receiver = User.find_by(username: params_user)
     Slink.create!(
       user_id: user_id,
       link_id: link.id,
@@ -61,9 +61,8 @@ class LnkrrApp < Sinatra::Base
   end
 
   delete "/:user/links/:link_id" do
-    param_user = params[:user]
-    if username == param_user
-      data = User.find_by(username: param_user)
+    if username == params_user
+      data = User.find_by(username: params_user)
       del_link = params[:link_id].to_i
         if data == nil
             # username doesn't exist
@@ -78,8 +77,7 @@ class LnkrrApp < Sinatra::Base
   end
 
   get "/:user" do
-    username = params[:user]
-    data = User.where(username: username)
+    data = User.where(username: params_user)
     if data == nil
       # username doesn't exist
     else
@@ -90,9 +88,8 @@ class LnkrrApp < Sinatra::Base
   # create links
 
   post "/:user/newlinks" do
-    username = params[:user]
-    data = User.find_by(username: username)
-    post_new_link params[:user]
+    data = User.find_by(username: params_user)
+    post_new_link params_user
   end
 
   def post_new_link user
@@ -128,6 +125,9 @@ class LnkrrApp < Sinatra::Base
     User.find_by(username: username).id
   end
 
+  def params_user
+    params["user"]
+  end
 
   def message(user,link)
     token = ENV["SLACK_PAYLOAD"]
