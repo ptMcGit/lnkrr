@@ -13,6 +13,11 @@ def post_request path, auth: "webconsole", body: {}
   HTTParty.post Url + path, headers: { "Authorization" => auth }, body: body.to_json
 end
 
+def delete_request path, auth: "webconsole", body: {}
+  HTTParty.delete Url + path, headers: { "Authorization" => auth }, body: body.to_json
+end
+
+
 Heroku  = "https://lnkrr.herokuapp.com"
 Local   = "http://localhost:4567"
 Url     = Local
