@@ -1,3 +1,4 @@
+
 require "pry"
 require "sinatra/base"
 require "sinatra/json"
@@ -32,8 +33,8 @@ class LnkrrApp < Sinatra::Base
     link = Link.create!(parsed_body)
     sender = User.find_by(username: params_user)
     if sender
-      if sender.id == user_id
-        Slink.create!(user_id: user_id, link_id: link.id)
+      if sender.id == user.id
+        Slink.create!(user_id: user.id, link_id: link.id)
       else
         # you are trying to post to someone else's links
       end
@@ -49,19 +50,14 @@ class LnkrrApp < Sinatra::Base
     link = Link.create!(parsed_body)
     receiver = User.find_by(username: params_user)
     Slink.create!(
-      user_id: user_id,
+      user_id: user.id,
       link_id: link.id,
       receiver_id: receiver.id
     )
   end
 
-  def get_links
-    Link.all.to_json
-    #json user.links
-  end
-
   delete "/:user/links/:link_id" do
-    if username == params_user
+    if user.username == params_user
       data = User.find_by(username: params_user)
       del_link = params[:link_id].to_i
         if data == nil
@@ -85,18 +81,6 @@ class LnkrrApp < Sinatra::Base
     end
   end
 
-  # create links
-
-  post "/:user/newlinks" do
-    data = User.find_by(username: params_user)
-    post_new_link params_user
-  end
-
-  def post_new_link user
-    Link.create! parsed_body
-    message(user,Link.last.url)
-  end
-
   def parsed_body
      begin
        @parsed_body ||= JSON.parse request.body.read
@@ -106,7 +90,7 @@ class LnkrrApp < Sinatra::Base
   end
 
   def require_authorization!
-    unless username
+    unless user.username
       halt(
         401,
         json("status": "error", "error": "You must log in.")
@@ -114,15 +98,11 @@ class LnkrrApp < Sinatra::Base
     end
   end
 
-  def username
+  def user
     username = request.env["HTTP_AUTHORIZATION"]
     halt 401 unless username
-    (u = User.find_by( username: username )) || halt(403)
-    u.username
-  end
-
-  def user_id
-    User.find_by(username: username).id
+    (user = User.find_by( username: username )) || halt(403)
+    user
   end
 
   def params_user
