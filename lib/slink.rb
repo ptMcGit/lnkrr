@@ -5,6 +5,7 @@ class Slink < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :link
+#  belongs_to :user, foreign_key: 'receiver_id'
 
   def mark_time
     # WARNING: not `done_at = Time.now`

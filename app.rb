@@ -23,8 +23,6 @@ class LnkrrApp < Sinatra::Base
     require_authorization!
   end
 
-#################
-
   get "/:user/links" do
     u = User.find_by(username: params["user"])
     u.links
@@ -43,9 +41,8 @@ class LnkrrApp < Sinatra::Base
   end
 
   get "/:user/recommended" do
-    binding.pry
-    # logic problem
-    # Slink.where(receiver: params[:user]).pluck(:owner, :url).to_json
+    u = User.find_by(username: params["user"])
+    u.rlinks
   end
 
   post "/:user/recommended" do
@@ -57,8 +54,6 @@ class LnkrrApp < Sinatra::Base
       receiver_id: receiver.id
     )
   end
-
-############
 
   def get_links
     Link.all.to_json

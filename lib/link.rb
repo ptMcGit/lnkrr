@@ -4,7 +4,7 @@ class Link < ActiveRecord::Base
   # validate :due_date_is_in_the_future
 
   has_many :slinks
-  has_many :links, through: :users
+  has_many :users, through: :slinks
 
   def mark_time
     # WARNING: not `done_at = Time.now`

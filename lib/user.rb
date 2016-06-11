@@ -5,7 +5,13 @@ class User < ActiveRecord::Base
 
   has_many :slinks
   has_many :links, through: :slinks
+#  has_many :rlinks, through: :slinks, foreign_key: 'receiver_id'
 
+
+  def rlinks
+   rlinks = Slink.where(receiver_id: self.id)
+   rlinks.map { |r| Link.find_by(id: r.link_id) }
+  end
 
   # def make_link title
   #   # List.create! title: title, user_id: id
