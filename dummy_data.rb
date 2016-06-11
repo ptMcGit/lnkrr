@@ -3,7 +3,6 @@
 def skydaddy
   {
       username: "skydaddy",
-      password: "lightsaber",
       first_name: "Luke",
       last_name: "Skywalker",
       location: "Tatooine",
@@ -14,7 +13,6 @@ end
 def skygranddaddy
   {
       username: "skygranddaddy",
-      password: "forcechoke",
       first_name: "Darth",
       last_name: "Vader",
       location: "the Death Star",
@@ -25,7 +23,6 @@ end
 def storm_trooper1
   {
       username: "rad_Steve",
-      password: "cool123",
       first_name: "Steve",
       last_name: "Miller",
       location: "the Death Star",
@@ -36,7 +33,6 @@ end
 def storm_trooper2
   {
       username: "swellPhil",
-      password: "dat77",
       first_name: "Phil",
       last_name: "Winters",
       location: "the Death Star",
@@ -47,7 +43,6 @@ end
 def storm_trooper3
   {
       username: "MojoMike",
-      password: "atat65",
       first_name: "Mike",
       last_name: "Storm",
       location: "The Death Star",
