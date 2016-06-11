@@ -99,8 +99,11 @@ class LnkrrApp < Sinatra::Base
   end
 
   def user
-    username = request.env["HTTP_AUTHORIZATION"]
-    halt 401 unless username
+    auth = request.env["HTTP_AUTHORIZATION"].split(":")
+    username = auth[0]
+    pass = auth[1]
+
+    halt 401 unless username && pass
     (user = User.find_by( username: username )) || halt(403)
     user
   end

@@ -50,9 +50,11 @@ class LnkrrAppTests < Minitest::Test
     JSON.parse response.body
   end
 
+### README tests
+
   def test_can_POST_links_to_self
     User.create! skydaddy
-    auth "skydaddy"
+    auth "skydaddy:lightsaber"
     r = post "/skydaddy/links", apple.to_json
     assert last_response.ok?
     assert_equal 1, Link.count
@@ -65,8 +67,9 @@ class LnkrrAppTests < Minitest::Test
 
     create_slink s, l, r
 
-    auth "skydaddy"
+    auth "skydaddy:lightsaber"
     r = get "/skydaddy/links"
+
     body = parse_body r
     assert last_response.ok?
     assert_equal "Wikipedia", body[0]["title"]
@@ -77,7 +80,7 @@ class LnkrrAppTests < Minitest::Test
     s1 = User.create! storm_trooper1
     s2 = User.create! storm_trooper2
 
-    auth "skydaddy"
+    auth "skydaddy:lightsaber"
     r = get "/rad_Steve"
     body = parse_body r
 
@@ -92,7 +95,7 @@ class LnkrrAppTests < Minitest::Test
 
     assert_equal 1, Link.count
 
-    header "Authorization", "skydaddy"
+    auth "skydaddy:lightsaber"
 
     r = delete "/skydaddy/links/#{l.id}"
     assert_equal 0, Link.count
@@ -103,7 +106,7 @@ class LnkrrAppTests < Minitest::Test
     s = User.create! skydaddy
     r = User.create! skygranddaddy
 
-    auth "skydaddy"
+    auth "skydaddy:lightsaber"
     resp = post "/skygranddaddy/recommended", wikipedia.to_json
     l = Link.find_by(title: "Wikipedia")
     sl = Slink.first
@@ -119,7 +122,7 @@ class LnkrrAppTests < Minitest::Test
     r = User.create! storm_trooper3
     create_slink s, l, r
 
-    auth "swellPhil"
+    auth "swellPhil:dat77"
     resp = get "/MojoMike/recommended"
     body = parse_body resp
 
@@ -127,4 +130,15 @@ class LnkrrAppTests < Minitest::Test
     assert_equal "GitHub", body[0]["title"]
     assert_equal 1, body.count
   end
+
+  ### ^ README TESTS
+
+  #def test_cant_create_same_user
+  #  u1 = User.create! storm_trooper3
+  # binding.pry
+  #  u2 = User.create! storm_trooper3
+  #end
+
+
+
 end
