@@ -38,7 +38,7 @@ class LnkrrApp < Sinatra::Base
 
   post "/:user/links" do
     if params_user.id == user.id
-      link = Link.create!(parsed_body)
+      link = create_link(parsed_body)
       Slink.create!(user_id: user.id, link_id: link.id)
     else
       halt_404
@@ -50,8 +50,8 @@ class LnkrrApp < Sinatra::Base
   end
 
   post "/:user/recommended" do
-    link = Link.create!(parsed_body)
-    Slink.create!(
+    link = create_link(parsed_body)
+       Slink.create!(
       user_id: user.id,
       link_id: link.id,
       receiver_id: params_user.id
@@ -127,6 +127,18 @@ class LnkrrApp < Sinatra::Base
     halt 404, json(error: "Not Found")
   end
 
+  def create_link(link)
+    begin
+      l = Link.create! link
+    rescue ActiveRecord::RecordInvalid => e
+      if e.message == "Validation failed: Url has already been taken"
+        return Link.find_by(url: link["url"])
+      else
+        halt 400
+      end
+    end
+    l
+  end
 end
   #format is message("user","link")
 
