@@ -1,8 +1,8 @@
-
 require "pry"
 require "sinatra/base"
 require "sinatra/json"
 require "rack/cors"
+require "httparty"
 
 require "./db/setup"
 require "./lib/all"
@@ -57,7 +57,7 @@ class LnkrrApp < Sinatra::Base
       link_id: link.id,
       receiver_id: params_user.id
     )
-    unless lnkrrbot user.username, link.url, params_user.username
+    unless lnkrrbot user.username, link.url, params_user.username, link.description
       json(error: "there was a problem with lnkrrbot")
     end
    end
@@ -107,18 +107,21 @@ class LnkrrApp < Sinatra::Base
     (user = User.find_by( username: params["user"] )) || halt(404)
   end
 
-  def lnkrrbot(user1, url, user2=nil)
+  def lnkrrbot(user1, url, user2, description)
+    unless ENV["LNKRRBOT"]
+      return false
+    end
     token = ENV["SLACK_PAYLOAD"] || File.read("./token.txt").chomp
     begin
-      HTTParty.post("#{token}",
+      x = HTTParty.post("#{token}",
         :body => {
           :username => 'lnkrrbot',
-          :channel => '@zach.h',
-          :text => "@#{user1} recommended #{url} to @#{user2}"
+          :channel => '#plock_recommendations',
+          :text => "@#{user1} lnkrr-rd @#{user2} #{url}! #{description}"
         }.to_json,
         :headers => { 'Content-Type' => 'application/json' }
       )
-    rescue
+    rescue => e
       return false
     end
     return true
