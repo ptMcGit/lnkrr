@@ -63,19 +63,22 @@ class LnkrrAppTests < Minitest::Test
     assert_equal "Apple Computers", body["title"]
   end
 
-  def test_can_GET_links
+  def test_can_GET_submitted_links_not_shared
     s = User.create! skydaddy
-    l = Link.create! wikipedia
+    l1 = Link.create! wikipedia
+    l2 = Link.create! apple
     r = User.create! skygranddaddy
 
-    create_slink s, l, r
+    Slink.create!(user_id: s.id, link_id: l1.id)
+    Slink.create!(user_id: s.id, link_id: l2.id, receiver_id: r.id)
 
     auth "skydaddy:lightsaber"
     r = get "/skydaddy/links"
-
     body = parse_body r
+
     assert last_response.ok?
     assert_equal "Wikipedia", body[0]["title"]
+    assert_equal 1, body.count
   end
 
   def test_can_view_user

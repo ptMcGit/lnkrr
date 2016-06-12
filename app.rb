@@ -33,7 +33,7 @@ class LnkrrApp < Sinatra::Base
   end
 
   get "/:user/links" do
-    params_user.links.to_json
+    params_user.shared_links.to_json
   end
 
   post "/:user/links" do

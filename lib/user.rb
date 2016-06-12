@@ -17,6 +17,11 @@ class User < ActiveRecord::Base
    rlinks.map { |r| Link.find_by(id: r.link_id) }
   end
 
+  def shared_links
+    s = Slink.where(user_id: self.id, receiver_id: nil)
+    s.map { |o| Link.find_by(id: o.link_id) }
+  end
+
   def user_profile
     self.as_json.merge({"saved_links" => self.links.pluck(:url)})
   end
