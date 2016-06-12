@@ -56,8 +56,10 @@ class LnkrrApp < Sinatra::Base
       link_id: link.id,
       receiver_id: params_user.id
     )
-    lnkrrbot "@#{user.name} recommended #{link.url} to @#{params_user.name}"
-  end
+    unless lnkrrbot user.username, link.url, params_user.username
+      json(error: "there was a problem with lnkrrbot")
+    end
+   end
 
   delete "/:user/links/:link_id" do
     if user.username == params_user.username
@@ -104,14 +106,21 @@ class LnkrrApp < Sinatra::Base
     (user = User.find_by( username: params["user"] )) || halt(404)
   end
 
-  def lnkrrbot(message)
+  def lnkrrbot(user1, url, user2=nil)
     token = ENV["SLACK_PAYLOAD"]
-    HTTParty.post("#{token}",
-      :body => { :username => 'lnkrrbot',
-                 :channel => '@tythompson',
-                 :text => message
-               }.to_json,
-      :headers => { 'Content-Type' => 'application/json' } )
+    begin
+      HTTParty.post("#{token}",
+        :body => {
+          :username => 'lnkrrbot',
+          :channel => '@tythompson',
+          :text => "@#{user1} recommended #{url} to @#{user2}"
+        }.to_json,
+        :headers => { 'Content-Type' => 'application/json' }
+      )
+    rescue
+      return false
+    end
+    return true
   end
 
   def halt_404
