@@ -56,6 +56,7 @@ class LnkrrApp < Sinatra::Base
       link_id: link.id,
       receiver_id: params_user.id
     )
+    lnkrrbot "@#{user.name} recommended #{link.url} to @#{params_user.name}"
   end
 
   delete "/:user/links/:link_id" do
@@ -103,12 +104,12 @@ class LnkrrApp < Sinatra::Base
     (user = User.find_by( username: params["user"] )) || halt(404)
   end
 
-  def message(user,link)
+  def lnkrrbot(message)
     token = ENV["SLACK_PAYLOAD"]
     HTTParty.post("#{token}",
       :body => { :username => 'lnkrrbot',
-                 :channel => '#plock_recommendations',
-                 :text => "#{user} recommended the link: #{link}",
+                 :channel => '@tythompson',
+                 :text => message
                }.to_json,
       :headers => { 'Content-Type' => 'application/json' } )
   end
