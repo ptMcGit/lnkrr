@@ -70,6 +70,15 @@ def apple
   }
 end
 
+def coleman
+  {
+    title: "Coleman",
+    url: "http://www.coleman.com",
+    description: "Lets go camping. Father son trip soon?",
+    timestamp: "2016-10-21 12:50:22"
+  }
+end
+
 def wikipedia
   {
     title: "Wikipedia",
