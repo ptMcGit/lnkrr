@@ -88,7 +88,7 @@ class LnkrrApp < Sinatra::Base
 #      data.to_json
 #    end
     #  end
-    json User.find_by(username: params_user)
+    json [User.find_by(username: params_user)]
   end
 
 
