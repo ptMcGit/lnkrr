@@ -72,7 +72,7 @@ class LnkrrApp < Sinatra::Base
   end
 
   get "/:user" do
-    json params_user
+    params_user.user_profile.to_json
   end
 
   def parsed_body

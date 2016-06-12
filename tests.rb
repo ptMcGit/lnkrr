@@ -80,13 +80,21 @@ class LnkrrAppTests < Minitest::Test
     u = User.create! skydaddy
     s1 = User.create! storm_trooper1
     s2 = User.create! storm_trooper2
+    l1 = Link.create! apple
+    l2 = Link.create! wikipedia
+    l3 = Link.create! github
 
-    auth "skydaddy:lightsaber"
-    r = get "/rad_Steve"
+    Slink.create!(user_id: u.id, link_id: l1.id, receiver_id: s1.id)
+    Slink.create!(user_id: u.id, link_id: l3.id, receiver_id: s2.id)
+    Slink.create!(user_id: s1.id, link_id: l2.id, receiver_id: u.id)
+
+    auth "rad_Steve:cool123"
+    r = get "/skydaddy"
     body = parse_body r
 
-    assert_equal s1.username, body["username"]
     assert last_response.ok?
+    assert_equal 2, body["saved_links"].count
+    assert_equal "skydaddy", body["username"]
   end
 
   def test_can_delete_links
