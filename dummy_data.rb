@@ -95,6 +95,7 @@ def spotify
     description: "Choose your station",
     timestamp: "2016-04-05 12:50:22"
   }
+end
 
 def skydaddy_apple_granddaddy
   {
