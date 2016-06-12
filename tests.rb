@@ -56,6 +56,7 @@ class LnkrrAppTests < Minitest::Test
     User.create! skydaddy
     auth "skydaddy:lightsaber"
     r = post "/skydaddy/links", apple.to_json
+
     assert last_response.ok?
     assert_equal 1, Link.count
   end
@@ -124,6 +125,7 @@ class LnkrrAppTests < Minitest::Test
 
     auth "swellPhil:dat77"
     resp = get "/MojoMike/recommended"
+
     body = parse_body resp
 
     assert last_response.ok?
@@ -156,5 +158,16 @@ class LnkrrAppTests < Minitest::Test
      body = parse_body r
 
      assert_equal r.status, 404
+  end
+
+  def test_cant_post_duplicate_links
+    u = User.create! skydaddy
+
+    auth "skydaddy:lightsaber"
+    post "/skydaddy/links", github.to_json
+    r = post "/skydaddy/links", github.to_json
+
+    assert last_response.ok?
+    assert_equal 1, Link.count
   end
 end
