@@ -79,6 +79,23 @@ def wikipedia
   }
 end
 
+def spotify
+  {
+    title: "Spotify",
+    url: "http://www.spotify.com",
+    description: "Choose your music",
+    timestamp: "2016-04-05 12:50:22"
+  }
+end
+
+def spotify
+  {
+    title: "Pandora",
+    url: "http://www.pandora.com",
+    description: "Choose your station",
+    timestamp: "2016-04-05 12:50:22"
+  }
+
 def skydaddy_apple_granddaddy
   {
     owner: User.find_by(username: "skydaddy").id.to_s,
