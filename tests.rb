@@ -132,6 +132,21 @@ class LnkrrAppTests < Minitest::Test
   end
 
   ### ^ README TESTS
+focus
+
+  def test_cant_recommend_to_nonexistent_user
+
+    s = User.create! skydaddy
+
+    auth "skydaddy:lightsaber"
+    r = post "/billy/recommended", wikipedia.to_json
+    l = Link.find_by(title: "Wikipedia")
+    sl = Slink.first
+    binding.pry
+    assert_equal r.status, 404
+    assert_equal 0, Slink.count
+  end
+
 
   #def test_cant_create_same_user
   #  u1 = User.create! storm_trooper3

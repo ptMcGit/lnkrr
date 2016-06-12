@@ -20,7 +20,7 @@ class LnkrrApp < Sinatra::Base
 
   error do |e|
     if e.is_a? ActiveRecord::RecordNotFound
-      halt 404, json(error: "Not Found")
+      halt_404
     elsif e.is_a? ActiveRecord::RecordInvalid
       halt 422, json(error: e.message)
     else
@@ -57,11 +57,15 @@ class LnkrrApp < Sinatra::Base
   post "/:user/recommended" do
     link = Link.create!(parsed_body)
     receiver = User.find_by(username: params_user)
-    Slink.create!(
-      user_id: user.id,
-      link_id: link.id,
-      receiver_id: receiver.id
-    )
+    if receiver
+      Slink.create!(
+        user_id: user.id,
+        link_id: link.id,
+        receiver_id: receiver.id
+      )
+    else
+      halt_404
+    end
   end
 
   delete "/:user/links/:link_id" do
@@ -70,13 +74,13 @@ class LnkrrApp < Sinatra::Base
       del_link = params[:link_id].to_i
         if data == nil
             # username doesn't exist
-            status 404
-          else
-            Link.find(del_link).delete
-            # add slink line?
+          halt_404
+        else
+          Link.find(del_link).delete
+          # add slink line?
         end
     else
-      status 404
+      halt_404
     end
   end
 
@@ -132,6 +136,11 @@ class LnkrrApp < Sinatra::Base
                }.to_json,
       :headers => { 'Content-Type' => 'application/json' } )
   end
+
+  def halt_404
+    halt 404, json(error: "Not Found")
+  end
+
 end
   #format is message("user","link")
 
