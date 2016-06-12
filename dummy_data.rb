@@ -102,6 +102,42 @@ def pandora
     title: "Pandora",
     url: "http://www.pandora.com",
     description: "Choose your station",
-    timestamp: "2016-04-05 12:50:22"
+    timestamp: "2016-03-29 11:47:12"
+  }
+end
+
+def yahoo
+  {
+    title: "Yahoo",
+    url: "http://www.yahoo.com",
+    description: "Search Engine",
+    timestamp: "2016-01-03 09:12:54"
+  }
+end
+
+def google
+  {
+    title: "Google",
+    url: "http://www.google.com",
+    description: "Search Engine",
+    timestamp: "2016-01-22 02:04:31"
+  }
+end
+
+def bing
+  {
+    title: "Bing",
+    url: "http://www.bing.com",
+    description: "Search Engine",
+    timestamp: "2016-11-04 05:07:03"
+  }
+end
+
+def myspace
+  {
+    title: "Myspace",
+    url: "http://www.myspace.com",
+    description: "Social Networking",
+    timestamp: "2016-10-30 08:43:12"
   }
 end
