@@ -2,7 +2,6 @@ class CreateTables < ActiveRecord::Migration
   def change
     create_table :users do |t|
       t.string :username
-      t.string :password
       t.string :first_name
       t.string :last_name
       t.string :avatar
@@ -17,6 +16,7 @@ class CreateTables < ActiveRecord::Migration
       t.text :description
       t.datetime :timestamp
     end
+
     create_table :slinks do |t|
       t.integer :user_id
       t.integer :link_id
