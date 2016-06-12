@@ -84,7 +84,7 @@ class LnkrrAppTests < Minitest::Test
     r = get "/rad_Steve"
     body = parse_body r
 
-    assert_equal s1.username, body[0]["username"]
+    assert_equal s1.username, body["username"]
     assert last_response.ok?
   end
 
@@ -132,7 +132,6 @@ class LnkrrAppTests < Minitest::Test
   end
 
   ### ^ README TESTS
-focus
 
   def test_cant_recommend_to_nonexistent_user
 
@@ -142,18 +141,20 @@ focus
     r = post "/billy/recommended", wikipedia.to_json
     l = Link.find_by(title: "Wikipedia")
     sl = Slink.first
-    binding.pry
+
     assert_equal r.status, 404
     assert_equal 0, Slink.count
   end
 
+  def test_cant_post_to_someone_elses_links
 
-  #def test_cant_create_same_user
-  #  u1 = User.create! storm_trooper3
-  # binding.pry
-  #  u2 = User.create! storm_trooper3
-  #end
+     u1 = User.create! storm_trooper2
+     u2 = User.create! storm_trooper3
 
+     auth "swellPhil:dat77"
+     r = post "/MojoMike/links"
+     body = parse_body r
 
-
+     assert_equal r.status, 404
+  end
 end

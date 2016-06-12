@@ -33,68 +33,44 @@ class LnkrrApp < Sinatra::Base
   end
 
   get "/:user/links" do
-    u = User.find_by(username: params_user)
-    u.links.to_json
+    params_user.links.to_json
   end
 
   post "/:user/links" do
-    link = Link.create!(parsed_body)
-    sender = User.find_by(username: params_user)
-    if sender
-      if sender.id == user.id
-        Slink.create!(user_id: user.id, link_id: link.id)
-      else
-        # you are trying to post to someone else's links
-      end
-    end
-  end
-
-  get "/:user/recommended" do
-    u = User.find_by(username: params_user)
-    u.rlinks.to_json
-  end
-
-  post "/:user/recommended" do
-    link = Link.create!(parsed_body)
-    receiver = User.find_by(username: params_user)
-    if receiver
-      Slink.create!(
-        user_id: user.id,
-        link_id: link.id,
-        receiver_id: receiver.id
-      )
+    if params_user.id == user.id
+      link = Link.create!(parsed_body)
+      Slink.create!(user_id: user.id, link_id: link.id)
     else
       halt_404
     end
   end
 
+  get "/:user/recommended" do
+    params_user.rlinks.to_json
+  end
+
+  post "/:user/recommended" do
+    link = Link.create!(parsed_body)
+    Slink.create!(
+      user_id: user.id,
+      link_id: link.id,
+      receiver_id: params_user.id
+    )
+  end
+
   delete "/:user/links/:link_id" do
-    if user.username == params_user
-      data = User.find_by(username: params_user)
+    if user.username == params_user.username
       del_link = params[:link_id].to_i
-        if data == nil
-            # username doesn't exist
-          halt_404
-        else
-          Link.find(del_link).delete
-          # add slink line?
-        end
+      Link.find(del_link).delete
+      # add slink line?
     else
       halt_404
     end
   end
 
   get "/:user" do
-#    data = User.where(username: params_user)
-#    if data == nil
-#      # username doesn't exist
-#    else
-#      data.to_json
-#    end
-    #  end
-    json User.find_by(username: params_user)
+    json params_user
   end
-
 
   def parsed_body
      begin
@@ -124,7 +100,7 @@ class LnkrrApp < Sinatra::Base
   end
 
   def params_user
-    params["user"]
+    (user = User.find_by( username: params["user"] )) || halt(404)
   end
 
   def message(user,link)
