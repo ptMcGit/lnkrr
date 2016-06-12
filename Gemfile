@@ -11,6 +11,7 @@ gem 'slack-ruby-bot'
 gem 'celluloid-io'
 gem 'puma'
 gem 'dotenv'
+gem 'httparty'
 
 group :development do
   gem 'sqlite3'
@@ -18,7 +19,6 @@ group :development do
   gem 'minitest-focus'
   gem 'minitest-reporters'
   gem 'rack-test'
-  gem 'httparty'
 end
 
 group :production do
