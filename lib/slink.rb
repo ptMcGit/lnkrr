@@ -1,11 +1,8 @@
 class Slink < ActiveRecord::Base
-  # validates_presence_of :list_id, :name
-  # validates_uniqueness_of :name, scope: :list_id
-  # validate :due_date_is_in_the_future
+  validates_presence_of :user_id, :link_id
 
   belongs_to :user
   belongs_to :link
-#  belongs_to :user, foreign_key: 'receiver_id'
 
   def mark_time
     # WARNING: not `done_at = Time.now`
