@@ -107,12 +107,12 @@ class LnkrrApp < Sinatra::Base
   end
 
   def lnkrrbot(user1, url, user2=nil)
-    token = ENV["SLACK_PAYLOAD"]
+    token = ENV["SLACK_PAYLOAD"] || File.read("./token.txt").chomp
     begin
       HTTParty.post("#{token}",
         :body => {
           :username => 'lnkrrbot',
-          :channel => '@tythompson',
+          :channel => '@zach.h',
           :text => "@#{user1} recommended #{url} to @#{user2}"
         }.to_json,
         :headers => { 'Content-Type' => 'application/json' }
