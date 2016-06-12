@@ -40,6 +40,7 @@ class LnkrrApp < Sinatra::Base
     if params_user.id == user.id
       link = create_link(parsed_body)
       Slink.create!(user_id: user.id, link_id: link.id)
+      link.to_json
     else
       halt_404
     end

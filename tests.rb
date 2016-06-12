@@ -56,9 +56,11 @@ class LnkrrAppTests < Minitest::Test
     User.create! skydaddy
     auth "skydaddy:lightsaber"
     r = post "/skydaddy/links", apple.to_json
+    body = parse_body r
 
     assert last_response.ok?
     assert_equal 1, Link.count
+    assert_equal "Apple Computers", body["title"]
   end
 
   def test_can_GET_links
