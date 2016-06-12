@@ -105,7 +105,12 @@ RESPONSE: status code
 
 #### 4. RECOMMEND LINKS TO ANOTHER USER
 
-*use submit new link method*
+PATH - `/:user/recommended`
+
+POST request
+
+- header "Authorization": "user"
+- params "title=" "url=" "description="
 
 #### 5.  GET RECOMMENDED LINKS
 
