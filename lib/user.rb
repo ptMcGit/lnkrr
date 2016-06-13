@@ -13,8 +13,10 @@ class User < ActiveRecord::Base
  # has_many :links, through: :slinks, :class_name => 'Link', :foreign_key => 'receiver_id'
 
   def rlinks
-   rlinks = Slink.where(receiver_id: self.id)
-   rlinks.map { |r| Link.find_by(id: r.link_id) }
+    #binding.pry
+    rlinks = Slink.where(receiver_id: self.id)
+    #rlinks.map { |r| Link.find_by(id: r.link_id) }
+    rlinks.map { |r| Link.find_by(id: r.link_id).as_json.merge("recommender"=>User.find_by(id: r.user_id).username) }
   end
 
   def shared_links
