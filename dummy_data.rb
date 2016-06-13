@@ -145,3 +145,21 @@ def myspace
     timestamp: "2016-10-30 08:43:12"
   }
 end
+
+def ironyard
+  {
+    title: "The Iron Yard",
+    url: "https://online.theironyard.com/",
+    description: "Awesome Technology Bootcamps",
+    timestamp: "2015-07-02 09:56:33"
+  }
+end
+
+def rubydoc
+  {
+    title: "Ruby Documentation",
+    url: "http://ruby-doc.org/",
+    description: "Documentation for the Ruby programming language.",
+    timestamp: "2015-08-09 12:45:08"
+  }
+end
