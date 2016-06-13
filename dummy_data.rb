@@ -5,6 +5,7 @@ def skydaddy
       username: "skydaddy",
       first_name: "Luke",
       last_name: "Skywalker",
+      avatar: "https://upload.wikimedia.org/wikipedia/en/9/9b/Luke_Skywalker.png",
       location: "Tatooine",
       joined_date: "2016-04-05"
   }
@@ -15,6 +16,7 @@ def skygranddaddy
       username: "skygranddaddy",
       first_name: "Darth",
       last_name: "Vader",
+      avatar: "https://upload.wikimedia.org/wikipedia/en/7/76/Darth_Vader.jpg",
       location: "the Death Star",
       joined_date: "2016-04-05"
   }
@@ -25,6 +27,7 @@ def storm_trooper1
       username: "rad_Steve",
       first_name: "Steve",
       last_name: "Miller",
+      avatar: "https://upload.wikimedia.org/wikipedia/commons/4/41/Romics_2013_135.JPG",
       location: "the Death Star",
       joined_date: "2016-04-05"
   }
@@ -35,6 +38,7 @@ def storm_trooper2
       username: "swellPhil",
       first_name: "Phil",
       last_name: "Winters",
+      avatar: "https://upload.wikimedia.org/wikipedia/commons/0/00/Kylo_Ren_%26_Stormtrooper_cosplayers_%2823229108429%29.jpg",
       location: "the Death Star",
       joined_date: "2016-02-18"
   }
